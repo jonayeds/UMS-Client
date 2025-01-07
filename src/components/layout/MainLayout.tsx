@@ -1,11 +1,11 @@
 import { Layout, Menu, MenuProps} from 'antd';
-import { Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 const { Header, Content, Footer, Sider } = Layout;
 
 const items:MenuProps["items"] = [
     {
-        key:"001",
-        label:"Dashboad",
+        key:"dashboard",
+        label:<NavLink to={"/admin/dashboard"}>Dashboard</NavLink>,
     },
     {
         key:"002",
@@ -16,16 +16,16 @@ const items:MenuProps["items"] = [
         label:"User Management",
         children:[
             {
-                key:"31",
-                label:"Create Student",
+                key:"createStudent",
+                label:<NavLink to={"/admin/create-student"}>Create Student</NavLink>,
             },
             {
-                key:"32",
-                label:"Create Faculty",
+                key:"createFaculty",
+                label:<NavLink to={"/admin/create-faculty"}>Create Faculty</NavLink>
             },
             {
-                key:"33",
-                label:"Create Admin",
+                key:"createAdmin",
+                label:<NavLink to={"/admin/create-admin"}>Create Admin</NavLink>
             },
         ]
     },
