@@ -22,13 +22,13 @@ export const adminPaths = [
                 element:<AcademicSemester/>
             },
             {
-                name:"Create Faculty",
-                path:"create-faculty",
+                name:"Academic Faculty",
+                path:"academic-faculty",
                 element:<CreateFaculty/>
             },
             {
-                name:"Create Admin",
-                path:"create-admin",
+                name:"Academic Department",
+                path:"academic-department",
                 element:<CreateAdmin/>
             },
         ]
