@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
+import { JwtPayload } from "jwt-decode";
 
+export interface TUser extends JwtPayload  {
+    id:string;
+    role:"admin"| "student" | "faculty";
+}
 
 type TAuthState = {
-    user:null| object;
+    user:null| TUser;
     token:null| string;
 }
 
