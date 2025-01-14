@@ -13,8 +13,11 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const [login] = useLoginMutation();
   const navigate = useNavigate();
+  const defaultValues = {
+    id:"A-0001",
+    password:"123456"
+  }
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
     const toastId = toast.loading("Logging in...")
     try {
       const userInfo = {
@@ -33,7 +36,7 @@ const Login = () => {
   };
   return (
     <Row align={"middle"} justify={"center"} style={{ height: "100vh" }}>
-      <UMSForm onSubmit={onSubmit}>
+      <UMSForm onSubmit={onSubmit} defaultValues= {defaultValues}>
         <UMSInput type="text" name="id" label="ID" />
         <UMSInput type="password" name="password" label="Password" />
         <Button htmlType="submit">Login</Button>
