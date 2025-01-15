@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import { Form, Input } from "antd";
 import { Controller } from "react-hook-form";
 
 const UMSInput = ({
@@ -11,13 +11,15 @@ const UMSInput = ({
   label?: string;
 }) => {
   return (
-    <div style={{marginBottom:"16px"}}>
-      {label && <label htmlFor={name}>{label}</label>}
+    <div style={{ marginBottom: "16px" }}>
       <Controller
-      name={name}
-      render={({field})=>(<Input {...field} type={type} id={name} />)}
+        name={name}
+        render={({ field }) => (
+          <Form.Item label={label}>
+            <Input {...field} type={type} id={name} />
+          </Form.Item>
+        )}
       />
-      
     </div>
   );
 };
