@@ -41,7 +41,14 @@ const SideBar = () => {
     }}  >
     <div className="demo-logo-vertical" />
     <div style={{height:"4rem", display:"flex", justifyContent:"center", alignItems:"center"}}><h1 style={{color:"whitesmoke"}}>UMS</h1></div>
-    <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={sideBarItems} />
+    <Menu     style={{
+      position:"sticky",
+      height:"100vh",
+      overflowY:"auto",
+      top:"0px",
+      left:"0px"
+      
+    }} theme="dark" mode="inline" defaultSelectedKeys={['4']} items={sideBarItems} />
   </Sider>
   )
 }

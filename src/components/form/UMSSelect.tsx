@@ -1,10 +1,22 @@
 import { Form, Select } from "antd"
+import { Controller } from "react-hook-form"
 
-const UMSSelect = ({label}:{label:string}) => {
+type TUMSSelectProps = {
+    label:string,
+    name:string,
+    options:{value:string, label:string}[]
+}
+
+const UMSSelect = ({label, name,options }:TUMSSelectProps) => {
   return (
-    <Form.Item label={label}>
+    <Controller
+    name={name}
+    render={({field})=>(
+
+        <Form.Item label={label}>
 
     <Select
+    onChange={field.onChange}
     showSearch
     style={{ width: "100%" }}
     placeholder="Search to Select"
@@ -12,22 +24,11 @@ const UMSSelect = ({label}:{label:string}) => {
     filterSort={(optionA, optionB) =>
         (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
     }
-    options={[
-        {
-            value: '1',
-            label: 'Fall',
-        },
-        {
-            value: '2',
-            label: 'Autumn',
-        },
-        {
-            value: '3',
-            label: 'Summer',
-        },
-    ]}
+    options={options}
     />
     </Form.Item>
+)}
+    />
   )
 }
 
