@@ -7,14 +7,18 @@ type TFormConfig = Record<string, any>
 type TFormProp = {
     onSubmit:SubmitHandler<FieldValues>;
     children:ReactNode,
-    defaultValues?:TFormConfig
+    defaultValues?:TFormConfig,
+    resolver? :any
 }
 
 
-const UMSForm = ({ onSubmit, children, defaultValues }:TFormProp) => {
+const UMSForm = ({ onSubmit, children, defaultValues, resolver  }:TFormProp) => {
     const formConfig:TFormConfig = {}
     if(defaultValues){
         formConfig["defaultValues"] = defaultValues
+    }
+    if(resolver){
+        formConfig["resolver"] = resolver
     }
   const methods = useForm(formConfig);
 

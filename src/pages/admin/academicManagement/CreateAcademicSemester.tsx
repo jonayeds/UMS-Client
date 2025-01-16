@@ -4,6 +4,9 @@ import { Button, Col, Flex } from "antd";
 import UMSSelect from "../../../components/form/UMSSelect";
 import { monthOptions } from "../../../constants/global";
 import { semesterOptions } from "../../../constants/semester";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { academicSemesterSchema } from "../../../schemas/academicManagement.schema";
 
 const currentYear = new Date().getFullYear();
 const yearOptions = [0, 1, 2, 3, 4].map((item) => ({
@@ -20,10 +23,11 @@ const CreateAcademicSemester = () => {
     };
     console.log(semesterData);
   };
+
   return (
     <Flex justify="center" align="center">
       <Col span={6}>
-        <UMSForm onSubmit={onSubmit}>
+        <UMSForm resolver={zodResolver(academicSemesterSchema)} onSubmit={onSubmit}>
           <UMSSelect
             options={semesterOptions}
             name="code"

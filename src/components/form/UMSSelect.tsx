@@ -11,8 +11,7 @@ const UMSSelect = ({label, name,options }:TUMSSelectProps) => {
   return (
     <Controller
     name={name}
-    render={({field})=>(
-
+    render={({field, fieldState:{error},  })=>(
         <Form.Item label={label}>
 
     <Select
@@ -23,7 +22,10 @@ const UMSSelect = ({label, name,options }:TUMSSelectProps) => {
     optionFilterProp="label"
     options={options}
     />
+    {error && <small style={{color:"red"}}>{error.message}</small>}
     </Form.Item>
+
+    
 )}
     />
   )
