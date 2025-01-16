@@ -13,15 +13,14 @@ type TFormProp = {
 
 const UMSForm = ({ onSubmit, children, defaultValues }:TFormProp) => {
     const formConfig:TFormConfig = {}
-    console.log(defaultValues)
     if(defaultValues){
         formConfig["defaultValues"] = defaultValues
     }
   const methods = useForm(formConfig);
 
   return (
-    <FormProvider {...methods}>
-      <Form layout="vertical" onFinish={methods.handleSubmit(onSubmit)}>{children}</Form>
+    <FormProvider  {...methods}>
+      <Form  layout="vertical" onFinish={methods.handleSubmit(onSubmit)}>{children}</Form>
     </FormProvider>
   );
 };

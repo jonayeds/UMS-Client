@@ -16,14 +16,11 @@ const UMSSelect = ({label, name,options }:TUMSSelectProps) => {
         <Form.Item label={label}>
 
     <Select
-    onChange={field.onChange}
     showSearch
+    onChange={field.onChange}
     style={{ width: "100%" }}
-    placeholder="Search to Select"
+    placeholder={`Search to Select ${label}`}
     optionFilterProp="label"
-    filterSort={(optionA, optionB) =>
-        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-    }
     options={options}
     />
     </Form.Item>
