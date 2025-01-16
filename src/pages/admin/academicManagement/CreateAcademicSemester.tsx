@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import UMSForm from "../../../components/form/UMSForm";
 import { Button, Col, Flex } from "antd";
@@ -7,6 +8,8 @@ import { semesterOptions } from "../../../constants/semester";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { academicSemesterSchema } from "../../../schemas/academicManagement.schema";
+import { useAddAcademicSemesterMutation } from "../../../redux/features/admin/academicManagement.api";
+import { toast } from "sonner";
 
 const currentYear = new Date().getFullYear();
 const yearOptions = [0, 1, 2, 3, 4].map((item) => ({
@@ -14,14 +17,27 @@ const yearOptions = [0, 1, 2, 3, 4].map((item) => ({
   label: (currentYear + item).toString(),
 }));
 
+
+
 const CreateAcademicSemester = () => {
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const [addAcademicSemester] = useAddAcademicSemesterMutation()
+    const onSubmit: SubmitHandler<FieldValues> =async (data) => {
+     const toastId =  toast.loading("Adding Academic Semester")
     const name = semesterOptions[parseInt(data.code) - 1]?.label;
     const semesterData = {
       ...data,
       name,
     };
-    console.log(semesterData);
+    try {
+        const res:{error?:any, data?:any} = await addAcademicSemester(semesterData)
+        console.log(res);
+        if(res.data) toast.success("Added Academic Semester", {id:toastId})
+        else if(res.error) toast.error(res?.error?.data?.message , {id:toastId})
+
+    } catch (error) {
+        console.log(error)
+        toast.error( "Something went wrong", {id:toastId})
+    }
   };
 
   return (
