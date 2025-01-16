@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import UMSForm from "../../../components/form/UMSForm";
 import { Button, Col, Flex } from "antd";
@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { academicSemesterSchema } from "../../../schemas/academicManagement.schema";
 import { useAddAcademicSemesterMutation } from "../../../redux/features/admin/academicManagement.api";
 import { toast } from "sonner";
+import { TResponse } from "../../../types";
 
 const currentYear = new Date().getFullYear();
 const yearOptions = [0, 1, 2, 3, 4].map((item) => ({
@@ -29,7 +30,7 @@ const CreateAcademicSemester = () => {
       name,
     };
     try {
-        const res:{error?:any, data?:any} = await addAcademicSemester(semesterData)
+        const res= await addAcademicSemester(semesterData) as TResponse
         console.log(res);
         if(res.data) toast.success("Added Academic Semester", {id:toastId})
         else if(res.error) toast.error(res?.error?.data?.message , {id:toastId})
