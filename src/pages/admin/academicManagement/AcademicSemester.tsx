@@ -24,14 +24,15 @@ const AcademicSemester = () => {
   const [params,setParams] = useState<TFilterParams>([])
   const [sortedInfo] = useState<Sorts>({});
 
-  const {data:semesterData} = useGetAllSemestersQuery(params)
-console.log(semesterData)
+  const {data:semesterData, isFetching} = useGetAllSemestersQuery(params)
+console.log({isFetching})
 const tableData = semesterData?.data?.map(({_id, name, startMonth, endMonth, year})=>({
 key:_id, name, startMonth, endMonth,year
 }))
 
 const clearFilters = () => {
   setFilteredInfo({});
+  setParams([])
 };
   const handleChange: OnChange = (_pagination, filters, _sorter, extra) => {
     if(extra.action ==="filter"){
@@ -92,6 +93,7 @@ const clearFilters = () => {
     },
   ];
 
+
   return (
     <>
     <Space style={{ marginBottom: 16 }}>
@@ -99,7 +101,7 @@ const clearFilters = () => {
         <Button onClick={clearFilters}>Clear filters</Button>
         <Button >Clear filters and sorters</Button>
       </Space>
-      <Table columns={columns} dataSource={tableData} onChange={handleChange} />
+      <Table loading={isFetching}  columns={columns} dataSource={tableData} onChange={handleChange} />
     </>
   );
 };
