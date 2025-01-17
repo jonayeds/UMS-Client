@@ -3,6 +3,7 @@ import type { TableColumnsType, TableProps } from 'antd';
 import { Button, Space, Table } from 'antd';
 import { useGetAllSemestersQuery } from '../../../redux/features/admin/academicManagement.api';
 import { useState } from 'react';
+import { TAcademicSemester } from '../../../types';
 
 type OnChange = NonNullable<TableProps<DataType>['onChange']>;
 type Filters = Parameters<OnChange>[1];
@@ -22,7 +23,7 @@ const AcademicSemester = () => {
 
   const {data:semesterData} = useGetAllSemestersQuery(undefined)
 console.log(semesterData)
-const tableData = semesterData?.data.map(({_id, name, startMonth, endMonth, year})=>({
+const tableData = (semesterData?.data as TAcademicSemester[]).map(({_id, name, startMonth, endMonth, year})=>({
 key:_id, name, startMonth, endMonth,year
 }))
 

@@ -1,3 +1,5 @@
+import { TReduxResponse} from "../../../types";
+import { TAcademicSemester } from "../../../types/academicManagement.types";
 import { baseApi } from "../../api/baseApi";
 
 const academicManagementApi = baseApi.injectEndpoints({
@@ -6,7 +8,8 @@ const academicManagementApi = baseApi.injectEndpoints({
       query: () => ({
         url: "/academic-semester",
       }),
-      transformResponse: (response) => {
+      transformResponse: (response:TReduxResponse<TAcademicSemester[]>) => {
+        console.log(response)
         return { data: response.data, meta: response.meta };
       },
     }),
