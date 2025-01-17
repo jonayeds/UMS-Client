@@ -5,43 +5,56 @@ import { useGetAllSemestersQuery } from '../../../redux/features/admin/academicM
 import { useState } from 'react';
 import { TAcademicSemester } from '../../../types';
 
-type OnChange = NonNullable<TableProps<DataType>['onChange']>;
+// interface ITableData extends TAcademicSemester {
+//   key:string
+// }
+type TFilterParams = { name: string; value: string }[]
+
+type ITableData = Pick<TAcademicSemester, "endMonth" | "name"|  "startMonth"| "year" >
+
+type OnChange = NonNullable<TableProps<ITableData>['onChange']>;
 type Filters = Parameters<OnChange>[1];
 type GetSingle<T> = T extends (infer U)[] ? U : never;
 type Sorts = GetSingle<Parameters<OnChange>[2]>;
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-}
+
 
 const AcademicSemester = () => {
-  const [filteredInfo] = useState<Filters>({});
+  const [filteredInfo, setFilteredInfo] = useState<Filters>({});
+  const [params,setParams] = useState<TFilterParams>([])
   const [sortedInfo] = useState<Sorts>({});
 
-  const {data:semesterData} = useGetAllSemestersQuery(undefined)
+  const {data:semesterData} = useGetAllSemestersQuery(params)
 console.log(semesterData)
-const tableData = (semesterData?.data as TAcademicSemester[]).map(({_id, name, startMonth, endMonth, year})=>({
+const tableData = semesterData?.data?.map(({_id, name, startMonth, endMonth, year})=>({
 key:_id, name, startMonth, endMonth,year
 }))
 
-
-  const handleChange: OnChange = (pagination, filters, sorter) => {
-    console.log('Various parameters', pagination, filters, sorter);
+const clearFilters = () => {
+  setFilteredInfo({});
+};
+  const handleChange: OnChange = (_pagination, filters, _sorter, extra) => {
+    if(extra.action ==="filter"){
+      const filterParams: TFilterParams = []
+      filters.name?.forEach(item=> filterParams.push({name:"name", value:item as string}))
+      filters.year?.forEach(item=> filterParams.push({name:"year", value:item as string}))
+      setParams(filterParams)
+      setFilteredInfo(filters);
+    }
+    console.log('Various parameters', filters, );
   };
 
 
 
-  const columns: TableColumnsType<DataType> = [
+  const columns: TableColumnsType<ITableData> = [
     {
       title: 'Semester Name',
       dataIndex: 'name',
       key: 'name',
       filters: [
-        { text: 'Joe', value: 'Joe' },
-        { text: 'Jim', value: 'Jim' },
+        { text: 'Autumn', value: 'Autumn' },
+        { text: 'Summer', value: 'Summer' },
+        { text: 'Fall', value: 'Fall' },
       ],
       filteredValue: filteredInfo.name || null,
       onFilter: (value, record) => record.name.includes(value as string),
@@ -65,6 +78,16 @@ key:_id, name, startMonth, endMonth,year
       title: 'Year',
       dataIndex: 'year',
       key: 'year',
+      filters: [
+        { text: '2025', value: '2025' },
+        { text: '2026', value: '2026' },
+        { text: '2027', value: '2027' },
+        { text: '2028', value: '2028' },
+      ],
+      filteredValue: filteredInfo.year || null,
+      onFilter: (value, record) => record.year.includes(value as string),
+      sorter: (a, b) => a.year.length - b.year.length,
+      sortOrder: sortedInfo.columnKey === 'year' ? sortedInfo.order : null,
       ellipsis: true,
     },
   ];
@@ -73,10 +96,10 @@ key:_id, name, startMonth, endMonth,year
     <>
     <Space style={{ marginBottom: 16 }}>
         <Button >Sort age</Button>
-        <Button >Clear filters</Button>
+        <Button onClick={clearFilters}>Clear filters</Button>
         <Button >Clear filters and sorters</Button>
       </Space>
-      <Table<DataType> columns={columns} dataSource={tableData} onChange={handleChange} />
+      <Table columns={columns} dataSource={tableData} onChange={handleChange} />
     </>
   );
 };
