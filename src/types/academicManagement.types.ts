@@ -5,3 +5,7 @@ export type TAcademicSemester = {
     startMonth:string;
     endMonth:string;
 }
+
+export type TAcademicFaculty = {
+    name:string
+}

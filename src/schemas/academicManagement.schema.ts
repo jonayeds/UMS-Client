@@ -7,3 +7,7 @@ export const academicSemesterSchema = z.object({
     endMonth:z.enum(months as [string, ...string[]], {required_error:"End month is required"}),
     year:z.string({required_error:"Year is required"})
   })
+
+  export const academicFacultySchema = z.object({
+    name:z.string({required_error:"Name is required"})
+  })

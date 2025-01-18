@@ -25,7 +25,7 @@ const AcademicSemester = () => {
   const [sortedInfo] = useState<Sorts>({});
 
   const {data:semesterData, isFetching} = useGetAllSemestersQuery(params)
-console.log({isFetching})
+console.log(semesterData)
 const tableData = semesterData?.data?.map(({_id, name, startMonth, endMonth, year})=>({
 key:_id, name, startMonth, endMonth,year
 }))
@@ -91,6 +91,13 @@ const clearFilters = () => {
       sortOrder: sortedInfo.columnKey === 'year' ? sortedInfo.order : null,
       ellipsis: true,
     },
+    {
+      title:"Action",
+      key:"X",
+      render:()=>{
+        return <div><Button>Update</Button></div>
+      }
+    }
   ];
 
 
