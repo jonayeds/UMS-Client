@@ -4,11 +4,9 @@ import { Button, Space, Table } from 'antd';
 import { useGetAllSemestersQuery } from '../../../redux/features/admin/academicManagement.api';
 import { useState } from 'react';
 import { TAcademicSemester } from '../../../types';
+import { TFilterParams } from '../../../constants/global';
 
-// interface ITableData extends TAcademicSemester {
-//   key:string
-// }
-type TFilterParams = { name: string; value: string }[]
+
 
 type ITableData = Pick<TAcademicSemester, "endMonth" | "name"|  "startMonth"| "year" >
 

@@ -30,3 +30,4 @@ export const monthOptions = months.map(month =>({
 }))
 
 
+export type TFilterParams = { name: string; value: string }[]

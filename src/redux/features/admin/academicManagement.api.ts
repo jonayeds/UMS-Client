@@ -1,5 +1,5 @@
 import { TReduxResponse} from "../../../types";
-import { TAcademicSemester } from "../../../types/academicManagement.types";
+import { TAcademicFaculty, TAcademicSemester } from "../../../types/academicManagement.types";
 import { baseApi } from "../../api/baseApi";
 
 const academicManagementApi = baseApi.injectEndpoints({
@@ -31,9 +31,27 @@ const academicManagementApi = baseApi.injectEndpoints({
         method:"POST",
         body:data
       })
+    }),
+    getAllAcademicFaculty: builder.query({
+      query:(args)=>{
+        const params = new URLSearchParams()
+        args?.forEach((item:{name:string, value:string})=> params.append(item.name, item.value))
+
+        return ({
+          url:"/academic-faculty/",
+          params
+        })
+      },
+      transformResponse:(response:TReduxResponse<TAcademicFaculty[]>)=>{
+        return {
+          data:response.data,
+          meta:response.meta
+        }
+      }
+
     })
   }),
 });
 
-export const { useGetAllSemestersQuery, useAddAcademicSemesterMutation, useAddAcademicFacultyMutation } =
+export const { useGetAllSemestersQuery, useAddAcademicSemesterMutation, useAddAcademicFacultyMutation, useGetAllAcademicFacultyQuery } =
   academicManagementApi;
