@@ -49,9 +49,16 @@ const academicManagementApi = baseApi.injectEndpoints({
         }
       }
 
+    }),
+    addAcademicDepartment: builder.mutation({
+      query:(data)=>({
+        url:"/academic-department/create-academic-department",
+        method:"POST",
+        body:data
+      })
     })
   }),
 });
 
-export const { useGetAllSemestersQuery, useAddAcademicSemesterMutation, useAddAcademicFacultyMutation, useGetAllAcademicFacultyQuery } =
+export const { useGetAllSemestersQuery, useAddAcademicSemesterMutation, useAddAcademicFacultyMutation, useGetAllAcademicFacultyQuery, useAddAcademicDepartmentMutation } =
   academicManagementApi;

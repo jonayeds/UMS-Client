@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Col, Flex } from "antd";
 import UMSForm from "../../../components/form/UMSForm";
 import UMSInput from "../../../components/form/UMSInput";
