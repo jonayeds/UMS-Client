@@ -10,3 +10,11 @@ export type TAcademicFaculty = {
     _id:string;
     name:string
 }
+
+export type TAcademicDepartment = {
+    data:{
+        _id:string;
+    name:string;
+    academicFaculty:TAcademicFaculty;
+    }[]
+}
