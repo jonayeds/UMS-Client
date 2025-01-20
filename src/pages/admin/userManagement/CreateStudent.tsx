@@ -1,7 +1,7 @@
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import UMSForm from "../../../components/form/UMSForm";
 import UMSInput from "../../../components/form/UMSInput";
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import UMSSelect from "../../../components/form/UMSSelect";
 import UMSDatePicker from "../../../components/form/UMSDatePicker";
 import { bloodGroupOptions, genderOptions } from "../../../constants/global";
@@ -47,8 +47,7 @@ const studentDefaultValues = {
 // };
 
 const CreateStudent = () => {
-  const [addStudent, {data, error}] = useAddStudentMutation()
-  console.log(data)
+  const [addStudent] = useAddStudentMutation()
   const {data:sData, isLoading:sLoading} = useGetAllSemestersQuery(undefined)
   const {data:dData, isLoading:dLoading} = useGetAllAcademicDepartmentQuery(undefined)
   const departmentOptions = dData?.data?.map(item => ({value:item._id, label:item.name}))
@@ -57,8 +56,9 @@ const CreateStudent = () => {
     const formData = new FormData();
     // console.log({ data: JSON.stringify(data) });
     formData.append("data", JSON.stringify({student:data}));
-    const res = await addStudent(formData)
-    console.log(res)
+    // const res = await addStudent(formData)
+    console.log(data)
+    // console.log(res)
   };
   return (
     <Row justify="center">
@@ -74,6 +74,16 @@ const CreateStudent = () => {
             </Col>
             <Col span={24} lg={{span:8}} md={{span:12}}>
               <UMSInput label="Last Name" type="text" name="name.lastName" />
+            </Col>
+            <Col span={24} lg={{span:8}} md={{span:12}}>
+            <Controller
+              name="image"
+              
+              render={({field:{onChange,value, ...field}})=> <Form.Item label="Profile">
+                 <Input {...field} value={value?.fileName} type="file" name="image" onChange={(e)=>onChange(e.target?.files?.[0])}/>
+              </Form.Item>}
+            />
+             
             </Col>
           
             <Col span={24} lg={{span:8}} md={{span:12}}>
