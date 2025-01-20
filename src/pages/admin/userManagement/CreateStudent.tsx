@@ -4,22 +4,9 @@ import UMSInput from "../../../components/form/UMSInput";
 import { Button, Col, Divider, Row } from "antd";
 import UMSSelect from "../../../components/form/UMSSelect";
 import UMSDatePicker from "../../../components/form/UMSDatePicker";
-
-const genderOptions = [
-  {value:"Male", label:"Male"},
-  {value:"Female", label:"Female"},
-]
-
-const bloodGroupOptions = [
-  {value:"A+", label:"A+"},
-  {value:"A-", label:"A-"},
-  {value:"B-", label:"B-"},
-  {value:"B+", label:"B+"},
-  {value:"AB+", label:"AB+"},
-  {value:"AB-", label:"AB-"},
-  {value:"O-", label:"O-"},
-  {value:"O+", label:"O+"},
-]
+import { bloodGroupOptions, genderOptions } from "../../../constants/global";
+import { useGetAllAcademicDepartmentQuery, useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
+import { useAddStudentMutation } from "../../../redux/features/admin/userManagement.api";
 
 
 
@@ -60,11 +47,18 @@ const studentDefaultValues = {
 // };
 
 const CreateStudent = () => {
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const [addStudent, {data, error}] = useAddStudentMutation()
+  console.log(data)
+  const {data:sData, isLoading:sLoading} = useGetAllSemestersQuery(undefined)
+  const {data:dData, isLoading:dLoading} = useGetAllAcademicDepartmentQuery(undefined)
+  const departmentOptions = dData?.data?.map(item => ({value:item._id, label:item.name}))
+  const semesterOptions = sData?.data?.map(item => ({value:item._id, label:`${item.name} ${item.year}`}))
+  const onSubmit: SubmitHandler<FieldValues> =async (data) => {
     const formData = new FormData();
     // console.log({ data: JSON.stringify(data) });
-    formData.append("data", JSON.stringify(data));
+    formData.append("data", JSON.stringify({student:data}));
+    const res = await addStudent(formData)
+    console.log(res)
   };
   return (
     <Row justify="center">
@@ -162,9 +156,12 @@ const CreateStudent = () => {
             </Col>
           </Row>
           <Divider>Academic Info</Divider>
-          <Row>
-            <Col>
-              
+          <Row gutter={8}>
+            <Col span={12}>
+              <UMSSelect disabled={sLoading} options={semesterOptions || []} name="academicSemester" label="Semester" />
+            </Col>
+            <Col span={12}>
+              <UMSSelect disabled={dLoading} options={departmentOptions || []} name="academicDepartment" label="Department" />
             </Col>
           </Row>
           <Row justify={"center"}>

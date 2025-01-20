@@ -4,10 +4,11 @@ import { Controller } from "react-hook-form"
 type TUMSSelectProps = {
     label:string,
     name:string,
+    disabled?:boolean,
     options:{value:string, label:string}[]
 }
 
-const UMSSelect = ({label, name,options }:TUMSSelectProps) => {
+const UMSSelect = ({label, name,options, disabled }:TUMSSelectProps) => {
   return (
     <Controller
     name={name}
@@ -16,6 +17,7 @@ const UMSSelect = ({label, name,options }:TUMSSelectProps) => {
 
     <Select
     showSearch
+    disabled={disabled}
     onChange={field.onChange}
     style={{ width: "100%" }}
     placeholder={`Search to Select ${label}`}
