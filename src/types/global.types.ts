@@ -21,4 +21,6 @@ export type TResponse<T> = {
   meta?: TMeta;
 };
 
+export type TQueryParams ={ name: string; value: string }
+
 export type TReduxResponse<T> = TResponse<T> & BaseQueryApi;

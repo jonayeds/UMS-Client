@@ -1,4 +1,4 @@
-import { TReduxResponse } from "../../../types";
+import { TQueryParams, TReduxResponse } from "../../../types";
 import {
   TAcademicDepartment,
   TAcademicFaculty,
@@ -11,7 +11,7 @@ const academicManagementApi = baseApi.injectEndpoints({
     getAllSemesters: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
-        args?.forEach((element: { name: string; value: string }) => {
+        args?.forEach((element: TQueryParams) => {
           params.append(element.name, element.value);
         });
         return {
@@ -20,6 +20,7 @@ const academicManagementApi = baseApi.injectEndpoints({
         };
       },
       transformResponse: (response: TReduxResponse<TAcademicSemester[]>) => {
+        console.log("origina semesters", response)
         return { data: response.data, meta: response.meta };
       },
     }),
@@ -40,7 +41,7 @@ const academicManagementApi = baseApi.injectEndpoints({
     getAllAcademicFaculty: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
-        args?.forEach((item: { name: string; value: string }) =>
+        args?.forEach((item: TQueryParams) =>
           params.append(item.name, item.value)
         );
 
@@ -66,7 +67,7 @@ const academicManagementApi = baseApi.injectEndpoints({
     getAllAcademicDepartment: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
-        args?.forEach((item: { name: string; value: string }) =>
+        args?.forEach((item: TQueryParams) =>
           params.append(item.name, item.value)
         );
         return {
@@ -75,9 +76,9 @@ const academicManagementApi = baseApi.injectEndpoints({
           params,
         };
       },
-      transformResponse: (response: TReduxResponse<TAcademicDepartment>) => {
+      transformResponse: (response: TReduxResponse<TAcademicDepartment[]>) => {
         return {
-          data: response.data?.data,
+          data: response.data,
           meta: response.meta,
         };
       },

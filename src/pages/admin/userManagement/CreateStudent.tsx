@@ -56,9 +56,10 @@ const CreateStudent = () => {
     const formData = new FormData();
     // console.log({ data: JSON.stringify(data) });
     formData.append("data", JSON.stringify({student:data}));
-    // const res = await addStudent(formData)
+    formData.append("file", data.image)
+    const res = await addStudent(formData)
     console.log(data)
-    // console.log(res)
+    console.log(res)
   };
   return (
     <Row justify="center">
