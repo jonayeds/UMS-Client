@@ -3,6 +3,7 @@ import { TFilterParams } from "../../../constants/global";
 import { Button, Flex, Pagination, Table, TableColumnsType, TableProps } from "antd";
 import { useGetAllStudentsQuery } from "../../../redux/features/admin/userManagement.api";
 import { useGetAllAcademicDepartmentQuery } from "../../../redux/features/admin/academicManagement.api";
+import { Link } from "react-router-dom";
 
 
 interface DataType {
@@ -30,8 +31,8 @@ const StudentData = () => {
     id:element.id,
     email:element.email,
     academicDepartment:element.academicDepartment.name,
-    actions:<Flex justify="center" align="center" gap={4}>
-    <Button size="small">Details</Button>
+    actions:<Flex justify="space-between" align="center" gap={4}>
+    <Link to={`/admin/student/${element._id}`}><Button onClick={()=>onClickDetails(element)} size="small">Details</Button></Link>
     <Button size="small">Update</Button>
     <Button size="small">Delete</Button>
     </Flex>
@@ -65,6 +66,10 @@ const StudentData = () => {
       filters: filterData
     },
   ];
+
+  const onClickDetails = (details)=>{
+    console.log(details)
+  }
 
 
   const onChange: TableProps<DataType>["onChange"] = (
