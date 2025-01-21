@@ -11,6 +11,7 @@ export type TError = {
 };
 
 export type TMeta = {
+  total:number;
   totalPage: number;
   page: number;
 };
